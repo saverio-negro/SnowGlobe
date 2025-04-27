@@ -15,8 +15,12 @@ struct SnowGlobeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(minWidth: 100, maxWidth: 200,
+                       minHeight: 100, maxHeight: 200
+                )
                 .environment(globeViewModel)
         }
+        .windowStyle(.plain)
         
         WindowGroup(id: "Globe") {
             GlobeView()

@@ -10,6 +10,9 @@ import RealityKit
 import RealityKitContent
 
 struct GlobeView: View {
+    
+    @Environment(GlobeViewModel.self) private var globeViewModel
+    
     var body: some View {
         EmptyView()
     }
