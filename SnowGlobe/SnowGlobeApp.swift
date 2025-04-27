@@ -15,17 +15,19 @@ struct SnowGlobeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .frame(minWidth: 100, maxWidth: 200,
-                       minHeight: 100, maxHeight: 200
+                .frame(minWidth: 250, maxWidth: 500,
+                       minHeight: 250, maxHeight: 500
                 )
+                .glassBackgroundEffect()
                 .environment(globeViewModel)
         }
-        .windowStyle(.plain)
+        .windowResizability(.contentSize)
         
         WindowGroup(id: "Globe") {
             GlobeView()
                 .environment(globeViewModel)
         }
         .windowStyle(.volumetric)
+        .defaultSize(width: 0.55, height: 0.55, depth: 0.55, in: .meters)
     }
 }

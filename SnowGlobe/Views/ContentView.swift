@@ -23,15 +23,26 @@ struct ContentView: View {
             
             Spacer()
             
-            Button("Conjure a Snow Globe") {
-                openWindow(id: "Globe")
-            }
-            
-            Button("Close Snow Globes") {
-                dismissWindow(id: "Globe")
+            VStack(spacing: 50) {
+                
+                Button {
+                    openWindow(id: "Globe")
+                } label: {
+                    Text("Conjure a Snow Globe")
+                        .font(.title)
+                        .padding()
+                }
+                
+                Button {
+                    dismissWindow(id: "Globe")
+                } label: {
+                    Text("Close Snow Globes")
+                        .font(.title)
+                        .padding()
+                }
             }
         }
-        .padding()
+        .padding(50)
     }
 }
 

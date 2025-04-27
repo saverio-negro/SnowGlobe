@@ -22,7 +22,7 @@ def Xform "Root"
         double radius = 0.1
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (0.5, 0.5, 0.5)
-        float3 xformOp:translate = (0, 0.05, 0)
+        float3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Material "DefaultMaterial"
@@ -135,7 +135,7 @@ def Xform "Root"
                         double particleLifeSpanVariation = 0.2
                         float particleMass = 0.5
                         float particleMassVariation = 0
-                        float particleSize = 0.0004
+                        float particleSize = 0.0001
                         float particleSizeVariation = 0.002
                         float3 radialGravityCenter = (1, 1, 0)
                         float radialGravityStrength = 0

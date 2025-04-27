@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class GlobeViewModel: ObservableObject {
-    var isSnowVisible: Bool = false
-    var isSnowmanVisible: Bool = false
-    var isTreeVisible: Bool = false
+    var isSnowVisible: Bool = true
+    var isSnowmanVisible: Bool = true
+    var isTreeVisible: Bool = true
 }
