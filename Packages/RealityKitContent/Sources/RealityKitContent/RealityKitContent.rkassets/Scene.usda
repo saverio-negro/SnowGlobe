@@ -7,53 +7,158 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["GridMaterial", "Sphere"]
+    reorder nameChildren = ["Globe", "Snow"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
 
-    def Sphere "Sphere" (
+    def Sphere "Globe" (
         active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.05
+        reorder nameChildren = ["DefaultMaterial", "Tree", "Snowman", "Snow"]
+        rel material:binding = </Root/Globe/DefaultMaterial>
+        double radius = 0.1
         quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, 0, 0.0004)
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (0, 0.05, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        def RealityKitComponent "Collider"
+        def Material "DefaultMaterial"
         {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Globe/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
 
-            def RealityKitStruct "Shape"
+            def Shader "DefaultSurfaceShader"
             {
-                float3 extent = (0.2, 0.2, 0.2)
-                float radius = 0.05
-                token shapeType = "Sphere"
+                uniform token info:id = "UsdPreviewSurface"
+                float inputs:clearcoat = 1
+                color3f inputs:diffuseColor = (0.039215688, 0.5176471, 1) (
+                    colorSpace = "srgb_texture"
+                )
+                color3f inputs:emissiveColor = (0.039215688, 0.5176471, 1) (
+                    colorSpace = "srgb_texture"
+                )
+                float inputs:opacity = 0.1
+                float inputs:roughness = 0
+                token outputs:surface
             }
         }
 
-        def RealityKitComponent "InputTarget"
+        def "Tree" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0, 0)
+            }
+            references = @Pine_Tree.usdz@
+        )
         {
-            uniform token info:id = "RealityKit.InputTarget"
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (0.0004985476, 0.0004985476, 0.0004985476)
+            float3 xformOp:translate = (0.04, -0.030000001, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
-    }
 
-    def "GridMaterial" (
-        active = true
-        prepend references = @Materials/GridMaterial.usda@
-    )
-    {
-        float3 xformOp:scale = (1, 1, 1)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        def "Snowman" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -1.5707963, 0)
+            }
+            references = @Snowman_-_Low_Poly.usdz@
+        )
+        {
+            quatf xformOp:orient = (0.70710677, 0, -0.70710677, 0)
+            float3 xformOp:scale = (0.00064143725, 0.00064143725, 0.00064143725)
+            float3 xformOp:translate = (-0.02, -0.035000004, 0.02)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Xform "Snow"
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (0.14285715, 0.00071428576, 0.14285715)
+            float3 xformOp:translate = (0, 0.08571429, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "VFXEmitter"
+            {
+                token info:id = "RealityKit.VFXEmitter"
+
+                def RealityKitStruct "currentState"
+                {
+                    token birthDirection = "Constant"
+                    token birthLocation = "Surface"
+                    float3 emissionDirection = (0, -1, 0)
+                    double emissionDuration = 1.5
+                    double emissionDurationVariation = 0
+                    token emitterShape = "Sphere"
+                    double idleDuration = 0
+                    double idleDurationVariation = 0
+                    bool isLocal = 0
+                    bool isLocalFields = 1
+                    bool isSpawningEnabled = 0
+                    bool loops = 1
+                    float particleSpeed = 0.08
+                    float particleSpeedVariation = 0.04
+                    float3 shapeSize = (0.5, 0.1, 0.5)
+                    bool spawnInheritParentColor = 0
+                    token spawnOccasion = "OnUpdate"
+                    float spawnSpreadFactor = 0
+                    float spawnSpreadFactorVariation = 0
+                    float spawnVelocityFactor = 1
+                    double warmupDuration = 0
+
+                    def RealityKitStruct "mainEmitter"
+                    {
+                        float3 acceleration = (0, -0.03, 0)
+                        token billboardMode = "Billboard"
+                        float birthRate = 500
+                        float birthRateVariation = 10
+                        token blendMode = "Alpha"
+                        float colorEvolutionPower = 0
+                        float dampingFactor = 0
+                        float4 endColorA = (1, 1, 1, 1)
+                        float4 endColorB = (1, 1, 1, 1)
+                        bool isLightingEnabled = 0
+                        float noiseAnimationSpeed = 2
+                        float noiseScale = 1
+                        float noiseStrength = 0.1
+                        token opacityOverLife = "GradualFadeInOut"
+                        float particleAngle = 3.1415925
+                        float particleAngleVariation = 3.1415925
+                        float particleAngularVelocity = 0
+                        float particleAngularVelocityVariation = 0.5
+                        asset particleImage = @ParticleEmitterPresetTextures/snow.png@
+                        double particleLifeSpan = 1
+                        double particleLifeSpanVariation = 0.2
+                        float particleMass = 0.5
+                        float particleMassVariation = 0
+                        float particleSize = 0.0004
+                        float particleSizeVariation = 0.002
+                        float3 radialGravityCenter = (1, 1, 0)
+                        float radialGravityStrength = 0
+                        float sizeMultiplierAtEndOfLifespan = 1
+                        float sizeMultiplierAtEndOfLifespanPower = 10
+                        token sortOrder = "IncreasingDepth"
+                        float spreadingAngle = 0
+                        float4 startColorA = (1, 1, 1, 1)
+                        float4 startColorB = (1, 1, 1, 1)
+                        float stretchFactor = 0
+                        bool useEndColor = 1
+                        bool useEndColorRange = 0
+                        bool useStartColorRange = 0
+                        float3 vortexDirection = (0, 1, 0)
+                        float vortexStrength = 0
+                    }
+
+                    def RealityKitStruct "spawnedEmitter"
+                    {
+                    }
+                }
+            }
+        }
     }
 }
 

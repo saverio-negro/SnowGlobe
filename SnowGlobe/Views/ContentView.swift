@@ -10,14 +10,14 @@ import RealityKit
 import RealityKitContent
 
 struct ContentView: View {
+    
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    
     var body: some View {
         VStack {
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
-                .padding(.bottom, 50)
-
-            Text("Hello, world!")
+            Text("Hello!")
         }
-        .padding()
     }
 }
 
